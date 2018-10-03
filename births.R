@@ -21,13 +21,21 @@ births <-
   mutate(month = factor(month.abb[month], levels = rev(month.abb))) %>%
   mutate(births = value)
 
+png("births.png", width = 600, height = 400)
 ggplot(births, aes(day, month)) +
   scale_x_continuous(breaks= 1:31)+
+  scale_fill_gradient(low = "black", high = "skyblue")+
   geom_tile(aes(fill = births)) +
-  ggtitle("U.S. mean births, 2000-2014") +
+  xlab("day")+
+  labs(title = "U.S. Births, 2000-2014",
+       subtitle = "Less births occur on holidays") +
   theme_minimal()+
   theme(panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, face = "bold"),
-        axis.title = element_blank())+
+        text = element_text(family = "mono"),
+        plot.title = element_text(face = "bold", size = 14),
+        plot.subtitle = element_text(size = 12),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45))+
   geom_hline(yintercept = seq(0.5, 12.5, by = 1), color = "grey50") +
   geom_vline(xintercept = seq(1.5, 30.5, by = 1), color = "grey50", size = 0.25)
+dev.off()
